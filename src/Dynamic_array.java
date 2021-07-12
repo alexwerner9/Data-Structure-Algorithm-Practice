@@ -20,6 +20,10 @@ public class Dynamic_array {
       if(i == -1 || mainArray[i] != -1) {
     	  
         //Check if array needs expansion
+        /*This app only expands by exactly what's needed
+          However, this could change easily to doubling or adding
+          a specific amount of empty / null items on the end instead.
+        */
         if(i + 1 >= mainArray.length) {
         	
           mainArray = concantenate(mainArray, new int[] { num });
