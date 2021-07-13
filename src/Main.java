@@ -1,10 +1,12 @@
-import java.util.Arrays;
+import dynamic_array.Dynamic_Array;
+import binary_tree.Binary_Tree;
 
 public class Main {
 
   public static void main(String[] args) {
 
-    Dynamic_array arrayList = new Dynamic_array(3);
+    Dynamic_Array arrayList = new Dynamic_Array(3);
+    Binary_Tree binaryTree = new Binary_Tree();
     arrayList.insert(5);
     arrayList.insert(6);
     arrayList.insert(7);

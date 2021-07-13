@@ -1,9 +1,10 @@
+package dynamic_array;
 import java.util.*;
 
-public class Dynamic_array {
+public class Dynamic_Array {
 
   int[] mainArray;
-  public Dynamic_array(int length) {
+  public Dynamic_Array(int length) {
 
     mainArray = new int[length];
     for(int i = 0; i < mainArray.length; i++) mainArray[i] = -1;
