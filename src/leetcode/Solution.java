@@ -1,9 +1,256 @@
 package leetcode;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Stack;
 
 class Solution {
     
+	////////////////////
+	
+	/*
+	 * Given the array nums, for each nums[i] find out how many numbers in the array are smaller than it. That is, for each nums[i] you have to count the number of valid j's such that j != i and nums[j] < nums[i].
+
+		Return the answer in an array.
+	 */
+	
+	public int[] smallerNumbersThanCurrent(int[] nums) {
+        
+        Integer[] indices = new Integer[nums.length];
+        int[] answer = new int[nums.length];
+        int counter = 0;
+        
+        for(int i = 0; i < indices.length; i++) {
+            indices[i] = i;
+        }
+        
+        Arrays.sort(indices, new Comparator<Integer>() {
+            public int compare(Integer i1, Integer i2) {
+                return nums[i1] - nums[i2];
+            }
+        });
+        
+        for(int i = 0; i < nums.length; i++) {
+            while(nums[indices[counter]] < nums[i]) {
+                answer[i]++;
+                counter++;
+            }
+            counter = 0;
+        }
+        
+        return answer;
+        
+    }
+	
+	////////////////////
+	
+	/*
+	 * Given an integer, convert it to a roman numeral.
+	 */
+	
+	public String intToRoman(int num) {
+        
+        StringBuilder finalString = new StringBuilder();
+        
+        String[] roman = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
+        int[] values = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+        
+        while(num > 0) {
+            for(int i = 0; i < roman.length; i++) {
+                while(num - values[i] >= 0) {
+                    finalString.append(roman[i]);
+                    num -= values[i];
+                }
+            }
+        }
+        
+        return finalString.toString();
+        
+    }
+	
+	////////////////////
+	
+	/*
+	 * Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.
+
+		Assume the environment does not allow you to store 64-bit integers (signed or unsigned).
+	 */
+	
+	public int reverse(int x) {
+        
+        char[] xList = Integer.toString(x).toCharArray();
+        
+        int lP = 0;
+        int rP = xList.length - 1;
+        
+        StringBuilder xString = new StringBuilder();
+        
+        if(xList[0] == '+' || xList[0] == '-') {
+            xString.append(xList[0]);
+            lP = 1;
+        }
+        
+        while(rP >= lP) {
+            xString.append(xList[rP]);
+            rP--;
+        }
+        
+        try {
+            return Integer.parseInt(xString.toString());
+        } catch(NumberFormatException e) {
+            return 0;
+        }
+        
+    }
+	
+	////////////////////
+	
+	/*
+	 * The string "PAYPALISHIRING" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)
+
+		P   A   H   N
+		A P L S I I G
+		Y   I   R
+		And then read line by line: "PAHNAPLSIIGYIR"
+		
+	 */
+	
+	public String convert(String s, int numRows) {
+        
+        StringBuilder finalBuilder = new StringBuilder();
+        ArrayList<StringBuilder> grid = new ArrayList<StringBuilder>();
+        
+        for(int i = 0; i < numRows; i++) {
+            grid.add(new StringBuilder());
+        }
+        
+        boolean ascending = true;
+        int currRow = 0;
+        
+        for(int i = 0; i < s.length(); i++) {
+            
+            grid.get(currRow).append(s.charAt(i));
+            
+            if(numRows != 1) {
+            
+                if(currRow == numRows - 1) {
+                    ascending = false;
+                }
+                if(currRow == 0) {
+                    ascending = true;
+                }
+
+                if(ascending) {
+                    currRow++;
+                } else {
+                    currRow--;
+                }
+                
+            }
+            
+        }
+        
+        for(int i = 0; i < numRows; i++) {
+            finalBuilder.append(grid.get(i).toString());
+        }
+        
+        return finalBuilder.toString();
+        
+    }
+	
+	////////////////////
+	
+	/*
+	
+	////////////////////
+	
+	/*
+	 * Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+		You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+		You can return the answer in any order.
+	 */
+	
+	public int[] twoSum(int[] nums, int target) {
+        
+        Integer[] indices = new Integer[nums.length];
+        for(int i = 0; i < nums.length; i++) {
+            indices[i] = i;
+        }
+        Arrays.sort(indices, new Comparator<Integer>() {
+            
+            public int compare(Integer i1, Integer i2) {
+                return nums[i1] - nums[i2];
+            }
+            
+        });
+        
+        int lP = 0;
+        int rP = nums.length - 1;
+        
+        while(rP > -1) {
+            int result = nums[indices[rP]] +nums[indices[lP]];
+            if(result > target) {
+                rP--;
+            }
+            if(result < target) {
+                lP++;
+            }
+            if(result == target) {
+                int[] answer = {indices[lP], indices[rP]};
+                return answer;
+            }
+        }
+        
+        return new int[0];
+        
+    }
+	
+	////////////////////
+	
+	/*
+	 * Given a string s, return the longest palindromic substring in s.
+	 */
+	
+	public String longestPalindrome(String s) {
+        
+        int lP = 0;
+        int rP = 0;
+        int len = 0;
+        int start = 0;
+        int end = 0;
+        
+        for(double i = 0; i < s.length(); i += 0.5) {
+            
+            if(Math.floor(i) != i) {
+                lP = (int)Math.floor(i);
+                rP = (int)Math.floor(i + 1);
+            } else {
+                lP = (int)i;
+                rP = (int)i;
+            }
+            
+            inner:
+            while(lP >= 0 && rP < s.length() && s.charAt(lP) == s.charAt(rP)) {
+
+                if(rP - lP > len) {
+                    start = lP;
+                    end = rP;
+                    len = end - start;
+                }
+                
+                lP--;
+                rP++;
+                
+            }
+            
+        }
+        
+        return s.substring(start, end + 1);
+    }
+	
 	////////////////////
 
 	/*
